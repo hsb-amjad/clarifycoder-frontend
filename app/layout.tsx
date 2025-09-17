@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ClarifyCoder – Agentic Coding Assistant",
+  title: "ClarifyCoder – Agentic Coding",
   description: "Multi-agent coding assistant with ClarifyAgent, CodeAgent, EvalAgent, and RefineAgent.",
 };
 
