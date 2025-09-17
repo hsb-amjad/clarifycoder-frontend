@@ -6,13 +6,45 @@ import { Listbox, Transition } from "@headlessui/react";
 import { Check, ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 
-// ---- Dropdown Component ----
+// ---- Types ----
 interface DropdownProps {
   value: string;
   onChange: (val: string) => void;
   options: string[];
 }
 
+interface Prompt {
+  id: number;
+  prompt: string;
+  category: string;
+}
+
+interface Metrics {
+  ARSR?: number;
+  CSR?: number;
+  RFR?: number;
+  USR?: number;
+  CRR?: number;
+  [key: string]: number | undefined;
+}
+
+interface RefineResult {
+  action: string;
+  refined_code: string;
+  re_eval_status: string;
+}
+
+interface Result {
+  status?: string;
+  clarifications?: string[];
+  answers?: string[];
+  output?: string;
+  refine?: RefineResult;
+  metrics?: Metrics;
+  error?: string;
+}
+
+// ---- Dropdown Component ----
 function PremiumDropdown({ value, onChange, options }: DropdownProps) {
   return (
     <Listbox value={value} onChange={onChange}>
@@ -64,9 +96,9 @@ function Sidebar({
   setView,
 }: {
   setPrompt: (p: string) => void;
-  setView: (v: string) => void;
+  setView: (v: "main" | "metrics") => void;
 }) {
-  const [prompts, setPrompts] = useState<any[]>([]);
+  const [prompts, setPrompts] = useState<Prompt[]>([]);
 
   useEffect(() => {
     fetch("/clarifycoder-agent/prompts.jsonl")
@@ -80,12 +112,12 @@ function Sidebar({
           .filter((line) => line.trim() !== "")
           .map((line) => {
             try {
-              return JSON.parse(line);
+              return JSON.parse(line) as Prompt;
             } catch {
               return null;
             }
           })
-          .filter((item) => item !== null);
+          .filter((item): item is Prompt => item !== null);
         setPrompts(lines);
       })
       .catch((err) => console.error("Failed to load prompts:", err));
@@ -111,7 +143,7 @@ function Sidebar({
           </button>
         ))}
 
-        {/* Fade overlay at bottom (sticky, not blocking prompts) */}
+        {/* Fade overlay at bottom */}
         <div className="pointer-events-none sticky bottom-0 left-0 right-0 h-16 
                         bg-gradient-to-t from-gray-900 via-gray-900/80 to-transparent"></div>
       </div>
@@ -134,15 +166,15 @@ function MetricsView({
   metrics,
   setView,
 }: {
-  metrics: any;
-  setView: (v: string) => void;
+  metrics: Metrics | null;
+  setView: (v: "main" | "metrics") => void;
 }) {
-  const fullNames: any = {
+  const fullNames: Record<string, string> = {
     ARSR: "Ambiguity-Resolved Success Rate",
     CSR: "Code Success Rate",
     RFR: "Refinement Fix Rate",
     USR: "Unsupported Rate",
-    CRR: "Clarification Request Rate"
+    CRR: "Clarification Request Rate",
   };
 
   return (
@@ -174,7 +206,7 @@ function MetricsView({
                 <td className="py-2 px-3 font-semibold">{k}</td>
                 <td className="py-2 px-3">{fullNames[k] || "—"}</td>
                 <td className="py-2 px-3 text-indigo-700 font-bold">
-                  {(v as number) * 100}%
+                  {v !== undefined ? `${(v * 100).toFixed(1)}%` : "—"}
                 </td>
               </tr>
             ))}
@@ -192,28 +224,31 @@ export default function Home() {
   const [mode, setMode] = useState("LLM");
   const [answerMode, setAnswerMode] = useState("Auto-Answer");
   const [prompt, setPrompt] = useState("");
-  const [view, setView] = useState("main"); // "main" | "metrics"
+  const [view, setView] = useState<"main" | "metrics">("main");
   const [clarifications, setClarifications] = useState<string[]>([]);
   const [answers, setAnswers] = useState<string[]>([]);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
 
   const runPrompt = async (givenAnswers?: string[]) => {
     setLoading(true);
     try {
-      const res = await fetch("https://clarifycoder-backend.onrender.com/run_prompt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt,
-          mode: mode.toLowerCase(),
-          answer_mode: answerMode.toLowerCase().includes("human")
-            ? "human"
-            : "auto",
-          answers: givenAnswers || null,
-        }),
-      });
-      const data = await res.json();
+      const res = await fetch(
+        "https://clarifycoder-backend.onrender.com/run_prompt",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt,
+            mode: mode.toLowerCase(),
+            answer_mode: answerMode.toLowerCase().includes("human")
+              ? "human"
+              : "auto",
+            answers: givenAnswers || null,
+          }),
+        }
+      );
+      const data: Result = await res.json();
       setResult(data);
       setClarifications(data.clarifications || []);
       setAnswers(data.answers || []);
@@ -424,7 +459,7 @@ export default function Home() {
             )}
           </>
         ) : (
-          <MetricsView metrics={result?.metrics} setView={setView} />
+          <MetricsView metrics={result?.metrics || null} setView={setView} />
         )}
       </main>
     </div>
