@@ -131,6 +131,20 @@ This frontend is optimized for Vercel:
 
 ---
 
+## 📚 Citation
+
+If you use **ClarifyCoder-Agent (Frontend)** in academic work:
+```bibtex
+@misc{clarifycoder-frontend2025,
+  title        = {ClarifyCoder-Agent Frontend},
+  author       = {Amjad, Haseeb},
+  year         = {2025},
+  howpublished = {GitHub},
+  url          = {https://github.com/hsb-amjad/clarifycoder-frontend},
+  note         = {Frontend repository for ClarifyCoder-Agent project}
+}
+```
+
 ## ⭐ Support
 
 If you like this project, star ⭐ the repo and share feedback.
