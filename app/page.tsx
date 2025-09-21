@@ -3,7 +3,7 @@
 import { useState, Fragment } from "react";
 import { motion } from "framer-motion";
 import { Listbox, Transition } from "@headlessui/react";
-import { Check, ChevronDown, Menu, X } from "lucide-react";
+import { Check, ChevronDown, Menu } from "lucide-react";
 import { useEffect } from "react";
 
 // ---- Types ----
@@ -83,12 +83,8 @@ function PremiumDropdown({ value, onChange, options }: DropdownProps) {
 // ---- Sidebar Component ----
 function Sidebar({
   setPrompt,
-  isOpen,
-  setIsOpen,
 }: {
   setPrompt: (p: string) => void;
-  isOpen: boolean;
-  setIsOpen: (o: boolean) => void;
 }) {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
 
@@ -116,21 +112,9 @@ function Sidebar({
   }, []);
 
   return (
-    <div
-      className={`fixed md:static top-0 left-0 h-screen md:h-auto w-64 md:w-56 bg-gray-900 text-white flex flex-col transform transition-transform duration-300 z-30 ${
-        isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-      }`}
-    >
+    <div className="fixed top-0 left-0 h-screen w-56 bg-gray-900/90 backdrop-blur-md text-white flex flex-col z-20">
       {/* Title */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700">
-        <h2 className="text-lg font-bold">PROMPTS</h2>
-        <button
-          className="md:hidden text-white"
-          onClick={() => setIsOpen(false)}
-        >
-          <X className="h-6 w-6" />
-        </button>
-      </div>
+      <h2 className="text-lg font-bold p-4">PROMPTS</h2>
 
       {/* Scrollable prompt list */}
       <div className="relative flex-1 overflow-y-auto px-2 space-y-2 no-scrollbar">
@@ -139,7 +123,6 @@ function Sidebar({
             key={p.id}
             onClick={() => {
               setPrompt(p.prompt);
-              setIsOpen(false);
             }}
             className="w-full text-left px-3 py-2 rounded-lg bg-gray-800 hover:bg-indigo-600 transition"
           >
@@ -164,7 +147,6 @@ export default function Home() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const runPrompt = async (givenAnswers?: string[]) => {
     setLoading(true);
@@ -200,29 +182,18 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <Sidebar setPrompt={setPrompt} isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+    <div className="flex min-h-screen flex-col md:flex-row">
+      {/* Sidebar always fixed on desktop, top on mobile */}
+      <div className="md:w-56 w-full md:static fixed bottom-0 md:bottom-auto md:top-0">
+        <Sidebar setPrompt={setPrompt} />
+      </div>
 
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-4 md:p-6 overflow-y-auto w-full">
-        {/* Mobile toggle */}
-        <div className="md:hidden w-full flex justify-between items-center mb-4">
-          <button
-            className="text-white"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <Menu className="h-7 w-7" />
-          </button>
-          <h1 className="text-2xl font-bold text-white">AGENTIC CLARIFYCODER</h1>
-        </div>
-
-        {/* Desktop title */}
+      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-4 md:p-6 overflow-y-auto mt-16 md:mt-0">
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="hidden md:block text-5xl font-extrabold text-white mb-10 drop-shadow-lg tracking-tight"
+          className="text-3xl md:text-5xl font-extrabold text-white mb-6 md:mb-10 drop-shadow-lg tracking-tight text-center"
         >
           AGENTIC CLARIFYCODER
         </motion.h1>
@@ -232,7 +203,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
-          className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-3xl"
+          className="bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl p-6 w-full max-w-3xl"
         >
           <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-between items-center">
             <div className="flex-1">
