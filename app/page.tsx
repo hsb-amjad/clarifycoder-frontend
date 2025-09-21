@@ -358,12 +358,34 @@ export default function Home() {
                   📝 CodeAgent Output
                 </h2>
 
-                {/* Copy button */}
+                {/* Copy button (GitHub style) */}
                 <button
-                  onClick={() => navigator.clipboard.writeText(result.output || "")}
-                  className="absolute top-4 right-4 px-2 py-1 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+                  onClick={() => {
+                    // remove ``` markers and language labels safely
+                    const cleanCode = (result.output ?? "")
+                      .replace(/```[a-zA-Z]*\n?/, "") // removes ```python or ```js
+                      .replace(/```$/, "");           // removes closing ```
+                    navigator.clipboard.writeText(cleanCode.trim());
+                  }}
+                  className="absolute top-4 right-4 flex items-center gap-1 text-gray-600 hover:text-gray-900 text-sm"
                 >
-                  Copy
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.8}
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8 16h8M8 12h8m-6 8h6a2 2 0 002-2V8a2 
+                        2 0 00-2-2h-2l-2-2H8a2 2 0 00-2 2v12a2 
+                        2 0 002 2z"
+                    />
+                  </svg>
+                  Copy code
                 </button>
 
                 <pre className="bg-gray-900 text-green-300 p-4 rounded-xl overflow-x-auto mt-6">
