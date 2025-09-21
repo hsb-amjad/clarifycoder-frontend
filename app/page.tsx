@@ -3,7 +3,7 @@
 import { useState, Fragment } from "react";
 import { motion } from "framer-motion";
 import { Listbox, Transition } from "@headlessui/react";
-import { Check, ChevronDown, Menu } from "lucide-react";
+import { Check, ChevronDown, Menu, X } from "lucide-react";
 import { useEffect } from "react";
 
 // ---- Types ----
@@ -83,8 +83,10 @@ function PremiumDropdown({ value, onChange, options }: DropdownProps) {
 // ---- Sidebar Component ----
 function Sidebar({
   setPrompt,
+  closeSidebar,
 }: {
   setPrompt: (p: string) => void;
+  closeSidebar: () => void;
 }) {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
 
@@ -112,9 +114,17 @@ function Sidebar({
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 h-screen w-56 bg-gray-900/90 backdrop-blur-md text-white flex flex-col z-20">
+    <div className="h-full flex flex-col">
       {/* Title */}
-      <h2 className="text-lg font-bold p-4">PROMPTS</h2>
+      <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        <h2 className="text-lg font-bold">PROMPTS</h2>
+        <button
+          className="md:hidden text-white"
+          onClick={closeSidebar}
+        >
+          <X className="h-6 w-6" />
+        </button>
+      </div>
 
       {/* Scrollable prompt list */}
       <div className="relative flex-1 overflow-y-auto px-2 space-y-2 no-scrollbar">
@@ -123,6 +133,7 @@ function Sidebar({
             key={p.id}
             onClick={() => {
               setPrompt(p.prompt);
+              closeSidebar();
             }}
             className="w-full text-left px-3 py-2 rounded-lg bg-gray-800 hover:bg-indigo-600 transition"
           >
@@ -147,6 +158,7 @@ export default function Home() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const runPrompt = async (givenAnswers?: string[]) => {
     setLoading(true);
@@ -182,18 +194,34 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row">
-      {/* Sidebar always fixed on desktop, top on mobile */}
-      <div className="md:w-56 w-full md:static fixed bottom-0 md:bottom-auto md:top-0">
-        <Sidebar setPrompt={setPrompt} />
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-screen w-64 bg-gray-900/90 backdrop-blur-md text-white transform transition-transform duration-300 z-30
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      >
+        <Sidebar setPrompt={setPrompt} closeSidebar={() => setSidebarOpen(false)} />
       </div>
 
-      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-4 md:p-6 overflow-y-auto mt-16 md:mt-0">
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-4 md:p-6 overflow-y-auto w-full">
+        {/* Top Bar (mobile only) */}
+        <div className="md:hidden flex items-center justify-between w-full mb-4">
+          <button onClick={() => setSidebarOpen(true)} className="text-white">
+            <Menu className="h-7 w-7" />
+          </button>
+          <h1 className="flex-1 text-center text-2xl font-extrabold text-white drop-shadow-lg">
+            AGENTIC CLARIFYCODER
+          </h1>
+          <div className="w-7" /> {/* spacer */}
+        </div>
+
+        {/* Heading (desktop) */}
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="text-3xl md:text-5xl font-extrabold text-white mb-6 md:mb-10 drop-shadow-lg tracking-tight text-center"
+          className="hidden md:block text-5xl font-extrabold text-white mb-10 drop-shadow-lg tracking-tight"
         >
           AGENTIC CLARIFYCODER
         </motion.h1>
@@ -265,7 +293,6 @@ export default function Home() {
                     <li key={i} className="mb-6">
                       <p className="font-medium text-gray-900">{q}</p>
 
-                      {/* Input for answers */}
                       {answerMode === "Human Answer" &&
                         result.status === "awaiting_answers" && (
                           <input
@@ -284,7 +311,6 @@ export default function Home() {
                           />
                         )}
 
-                      {/* After submission */}
                       {answerMode === "Human Answer" &&
                         result.status !== "awaiting_answers" &&
                         answers[i] && (
@@ -296,7 +322,6 @@ export default function Home() {
                           </p>
                         )}
 
-                      {/* Auto mode answers */}
                       {answerMode === "Auto-Answer" && answers[i] && (
                         <p className="mt-2 text-green-800 font-medium">
                           🤖 Auto-Answer: {answers[i]}
