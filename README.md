@@ -118,6 +118,8 @@ npm run dev
 - Frontend runs at: http://localhost:3000
 - ⚠️ Note: Backend must also be running. See [clarifycoder-backend]().
 
+---
+
 ## 🌐 Deployment
 This frontend is optimized for Vercel:
 1. Push repo to GitHub.
@@ -125,8 +127,13 @@ This frontend is optimized for Vercel:
 3. Configure backend API endpoint in environment variables if needed.
 4. Deploy → live in seconds 🚀
 
-## 👤 Author
+---
 
+## ⭐ Support
+If you like this project, star ⭐ the repo and share feedback.
+PRs and issues welcome!
+
+## 👤 Author
 **Haseeb Amjad** – Mechatronics Engineer | Machine Learning | AI + Robotics | MedTech  
 🌐 [Portfolio](https://my-portfolio-sage-zeta-79.vercel.app)
 💼 [LinkedIn](https://www.linkedin.com/in/hsb-amjad)
