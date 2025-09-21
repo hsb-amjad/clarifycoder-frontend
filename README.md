@@ -52,22 +52,29 @@
 ---
 
 ## 📂 Project Structure
+```plaintext
 clarifycoder-frontend/
-
-├─ app/ # Next.js app directory
-
-├─ components/ # UI components (Dropdown, Sidebar, CopyButton, etc.)
-
-├─ public/ # Static assets (icons, screenshots)
-
-├─ styles/ # Tailwind setup + global styles
-
-├─ package.json # Dependencies
-
-├─ tailwind.config.js # Tailwind config
-
-└─ tsconfig.json # TypeScript config
-
+ ├─ .next/                # Next.js build output
+ ├─ .vercel/              # Vercel deployment configs
+ ├─ app/                  # Main app directory
+ │   ├─ favicon.ico
+ │   ├─ globals.css       # Global styles
+ │   ├─ page.module.css   # Module-specific styles
+ │   └─ page.tsx          # Root page
+ ├─ node_modules/         # Installed dependencies
+ ├─ public/               # Static assets (screenshots, icons)
+ │   └─ screenshots/      # Images for README (e.g., mainpage.png)
+ ├─ .gitignore
+ ├─ eslint.config.mjs
+ ├─ next-env.d.ts
+ ├─ next.config.ts
+ ├─ package-lock.json
+ ├─ package.json
+ ├─ postcss.config.js
+ ├─ README.md
+ ├─ tailwind.config.js
+ └─ tsconfig.json
+```
 
 ---
 
