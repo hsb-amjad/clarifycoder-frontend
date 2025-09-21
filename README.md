@@ -112,7 +112,7 @@ npx tailwindcss init -p
 
 ### 3. Run Dev Server
 ```bash
-npn run dev
+npm run dev
 ```
 
 - Frontend runs at: http://localhost:3000
