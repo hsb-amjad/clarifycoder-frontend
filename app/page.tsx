@@ -266,6 +266,12 @@ export default function Home() {
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault(); // prevent newline
+                runPrompt();
+              }
+            }}
             placeholder="💡 Enter your coding task..."
             className="w-full h-32 p-4 rounded-xl bg-white/70 border-2 border-gray-300 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-300 shadow-inner transition"
           />
@@ -304,6 +310,12 @@ export default function Home() {
                               const newAnswers = [...answers];
                               newAnswers[i] = e.target.value;
                               setAnswers(newAnswers);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault(); // prevent newline/submit issues
+                                handleAnswerSubmit();
+                              }
                             }}
                             placeholder="Type your answer..."
                             className="mt-2 w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-md border-2 border-transparent 
