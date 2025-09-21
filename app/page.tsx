@@ -352,12 +352,21 @@ export default function Home() {
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-white rounded-2xl shadow-lg p-6"
+                className="bg-white rounded-2xl shadow-lg p-6 relative"
               >
                 <h2 className="text-2xl font-bold text-indigo-700 mb-2">
                   📝 CodeAgent Output
                 </h2>
-                <pre className="bg-gray-900 text-green-300 p-4 rounded-xl overflow-x-auto">
+
+                {/* Copy button */}
+                <button
+                  onClick={() => navigator.clipboard.writeText(result.output || "")}
+                  className="absolute top-4 right-4 px-2 py-1 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+                >
+                  Copy
+                </button>
+
+                <pre className="bg-gray-900 text-green-300 p-4 rounded-xl overflow-x-auto mt-6">
                   {result.output}
                 </pre>
               </motion.div>
