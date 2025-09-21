@@ -209,8 +209,6 @@ export default function Home() {
 
 const runPrompt = async (givenAnswers?: string[]) => {
   setLoading(true);
-  setPrompt(""); // 🔥 clear textarea immediately
-
   try {
     const res = await fetch(
       "https://clarifycoder-backend.onrender.com/run_prompt",
@@ -317,15 +315,15 @@ const runPrompt = async (givenAnswers?: string[]) => {
             onChange={(e) => setPrompt(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey && !loading) {
-                e.preventDefault(); // prevent newline
+                e.preventDefault();
                 runPrompt();
               }
             }}
-            disabled={loading}   // ✅ disable when running
+            disabled={loading}   // 🔥 keep prompt visible but lock editing
             placeholder="💡 Enter your coding task..."
             className={`w-full h-32 p-4 rounded-xl border-2 shadow-inner transition
               ${loading 
-                ? "bg-gray-200 text-gray-500 border-gray-300 cursor-not-allowed" 
+                ? "bg-gray-200 text-gray-600 border-gray-300 cursor-not-allowed" 
                 : "bg-white/70 border-gray-300 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-300"}`}
           />
         </motion.div>
