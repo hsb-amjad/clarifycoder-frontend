@@ -194,7 +194,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
       {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-screen w-64 bg-gray-900/90 backdrop-blur-md text-white transform transition-transform duration-300 z-30
@@ -204,9 +204,9 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 
+      <main className="flex-1 flex flex-col items-center 
                  p-4 md:p-6 overflow-y-auto w-full
-                 md:justify-start mt-12 md:mt-20 lg:mt-28">
+                 justify-start mt-8 md:mt-12">
         {/* Top Bar (mobile only) */}
         <div className="md:hidden flex items-center justify-between w-full mb-4">
           <button onClick={() => setSidebarOpen(true)} className="text-white">
