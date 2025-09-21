@@ -52,6 +52,7 @@
 ---
 
 ## 📂 Project Structure
+
 ```plaintext
 clarifycoder-frontend/
  ├─ .next/                # Next.js build output
@@ -121,6 +122,7 @@ npm run dev
 ---
 
 ## 🌐 Deployment
+
 This frontend is optimized for Vercel:
 1. Push repo to GitHub.
 2. Link with Vercel dashboard.
@@ -130,10 +132,12 @@ This frontend is optimized for Vercel:
 ---
 
 ## ⭐ Support
+
 If you like this project, star ⭐ the repo and share feedback.
 PRs and issues welcome!
 
 ## 👤 Author
+
 **Haseeb Amjad** – Mechatronics Engineer | Machine Learning | AI + Robotics | MedTech  
 🌐 [Portfolio](https://my-portfolio-sage-zeta-79.vercel.app)
 💼 [LinkedIn](https://www.linkedin.com/in/hsb-amjad)
