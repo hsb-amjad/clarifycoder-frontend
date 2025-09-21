@@ -117,7 +117,7 @@ npm run dev
 ```
 
 - Frontend runs at: http://localhost:3000
-- ⚠️ Note: Backend must also be running. See [clarifycoder-backend]().
+- ⚠️ Note: Backend must also be running. See [clarifycoder-backend](https://github.com/hsb-amjad/clarifycoder-backend.git).
 
 ---
 
