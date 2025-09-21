@@ -129,4 +129,4 @@ This frontend is optimized for Vercel:
 
 **Haseeb Amjad** – Mechatronics Engineer | Machine Learning | AI + Robotics | MedTech  
 🌐 [Portfolio](https://my-portfolio-sage-zeta-79.vercel.app)
-💼 [LinkedIn](www.linkedin.com/in/hsb-amjad)
+💼 [LinkedIn](https://www.linkedin.com/in/hsb-amjad)
