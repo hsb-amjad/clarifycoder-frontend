@@ -39,7 +39,7 @@ function PremiumDropdown({ value, onChange, options }: DropdownProps) {
   return (
     <Listbox value={value} onChange={onChange}>
       <div className="relative w-full">
-        <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-gradient-to-r from-indigo-500/80 to-purple-500/80 px-4 py-3 text-left font-semibold text-white shadow-md focus:outline-none focus:ring-4 focus:ring-purple-300 transition flex justify-between items-center">
+        <Listbox.Button className="relative w-full sm:min-w-[160px] cursor-pointer rounded-xl bg-gradient-to-r from-indigo-500/80 to-purple-500/80 px-4 py-3 text-left font-semibold text-white shadow-md focus:outline-none focus:ring-4 focus:ring-purple-300 transition flex justify-between items-center">
           <span>{value}</span>
           <ChevronDown className="h-5 w-5 opacity-80" />
         </Listbox.Button>
@@ -204,7 +204,8 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-4 md:p-6 overflow-y-auto w-full">
+      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-4 md:p-6 overflow-y-auto w-full
+                 md:justify-center">
         {/* Top Bar (mobile only) */}
         <div className="md:hidden flex items-center justify-between w-full mb-4">
           <button onClick={() => setSidebarOpen(true)} className="text-white">
