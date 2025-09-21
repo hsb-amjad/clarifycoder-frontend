@@ -207,34 +207,36 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const runPrompt = async (givenAnswers?: string[]) => {
-    setLoading(true);
-    try {
-      const res = await fetch(
-        "https://clarifycoder-backend.onrender.com/run_prompt",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            prompt,
-            mode: mode.toLowerCase(),
-            answer_mode: answerMode.toLowerCase().includes("human")
-              ? "human"
-              : "auto",
-            answers: givenAnswers || null,
-          }),
-        }
-      );
-      const data: Result = await res.json();
-      setResult(data);
-      setClarifications(data.clarifications || []);
-      setAnswers(data.answers || []);
-    } catch (err) {
-      console.error(err);
-      setResult({ error: "Failed to connect to backend" });
-    }
-    setLoading(false);
-  };
+const runPrompt = async (givenAnswers?: string[]) => {
+  setLoading(true);
+  setPrompt(""); // 🔥 clear textarea immediately
+
+  try {
+    const res = await fetch(
+      "https://clarifycoder-backend.onrender.com/run_prompt",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt,
+          mode: mode.toLowerCase(),
+          answer_mode: answerMode.toLowerCase().includes("human")
+            ? "human"
+            : "auto",
+          answers: givenAnswers || null,
+        }),
+      }
+    );
+    const data: Result = await res.json();
+    setResult(data);
+    setClarifications(data.clarifications || []);
+    setAnswers(data.answers || []);
+  } catch (err) {
+    console.error(err);
+    setResult({ error: "Failed to connect to backend" });
+  }
+  setLoading(false);
+};
 
   const handleAnswerSubmit = () => {
     runPrompt(answers);
@@ -314,13 +316,17 @@ export default function Home() {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
+              if (e.key === "Enter" && !e.shiftKey && !loading) {
                 e.preventDefault(); // prevent newline
                 runPrompt();
               }
             }}
+            disabled={loading}   // ✅ disable when running
             placeholder="💡 Enter your coding task..."
-            className="w-full h-32 p-4 rounded-xl bg-white/70 border-2 border-gray-300 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-300 shadow-inner transition"
+            className={`w-full h-32 p-4 rounded-xl border-2 shadow-inner transition
+              ${loading 
+                ? "bg-gray-200 text-gray-500 border-gray-300 cursor-not-allowed" 
+                : "bg-white/70 border-gray-300 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-300"}`}
           />
         </motion.div>
 
@@ -359,16 +365,17 @@ export default function Home() {
                               setAnswers(newAnswers);
                             }}
                             onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                e.preventDefault(); // prevent newline/submit issues
+                              if (e.key === "Enter" && !loading) {
+                                e.preventDefault(); 
                                 handleAnswerSubmit();
                               }
                             }}
+                            disabled={loading}   // 🔥 lock input while running
                             placeholder="Type your answer..."
-                            className="mt-2 w-full px-4 py-3 rounded-xl bg-white/40 backdrop-blur-md border-2 border-transparent 
-                                      focus:border-purple-400 focus:ring-4 focus:ring-purple-200 
-                                      shadow-inner text-gray-900 font-medium placeholder-gray-500 
-                                      transition duration-200"
+                            className={`mt-2 w-full px-4 py-3 rounded-xl border-2 shadow-inner font-medium transition duration-200
+                              ${loading 
+                                ? "bg-gray-200 text-gray-500 border-gray-300 cursor-not-allowed" 
+                                : "bg-white/40 backdrop-blur-md border-transparent focus:border-purple-400 focus:ring-4 focus:ring-purple-200 text-gray-900 placeholder-gray-500"}`}
                           />
                         )}
 
