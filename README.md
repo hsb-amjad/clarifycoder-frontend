@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⚡ Agentic ClarifyCoder – Frontend
 
-## Getting Started
+<p align="center">
+  <img src="./public/screenshots/mainpage.png" alt="ClarifyCoder Screenshot" width="800"/>
+</p>
 
-First, run the development server:
+> **ClarifyCoder Frontend** is a **Next.js + Tailwind + Framer Motion UI** for interacting with the multi-agent ClarifyCoder backend.  
+> It delivers a polished, responsive, and animated interface with **glassmorphism, gradients, and smooth transitions**, making the research system usable like a real product.
 
+---
+
+## ✨ Features
+
+- 🎨 **Premium UI** with gradients, blur, and animations
+- 📱 **Responsive layout** (desktop + mobile with sidebar, menus)
+- 🔽 **Custom Dropdowns** for selecting Baseline vs LLM, Auto vs Human Answer
+- 📂 **Sidebar Prompt Library** (loads tasks from `prompts.jsonl`)
+- 📝 **Interactive Pipeline**: shows ClarifyAgent → AnswerAgent → CodeAgent → EvalAgent → RefineAgent results
+- 📋 **GitHub-style Copy Button** for code blocks
+- ⚡ **Run Prompt Button** with loading states & enter-to-run shortcut
+- 👤 **Human-in-the-Loop Inputs** when answer mode = “Human Answer”
+- 🖼️ **Screenshots + Demo Visualization**
+
+---
+
+## 🖥️ Demo Screenshots
+
+### 🔹 Prompt Entry
+> Enter prompt manually or you can select from baseline prompts.
+<p align="center">
+  <img src="./public/screenshots/prompt.png" alt="Prompt Entry UI" width="700"/>
+</p>
+
+### 🔹 ClarifyAgent in Action
+> Automatically asks clarifying questions when the prompt is ambiguous.
+<p align="center">
+  <img src="./public/screenshots/qa.png" alt="Prompt Entry UI" width="700"/>
+</p>
+
+### 🔹 CodeAgent Output
+> Candidate code displayed with syntax highlighting + copy button.
+<p align="center">
+  <img src="./public/screenshots/code.png" alt="Prompt Entry UI" width="700"/>
+</p>
+
+### 🔹 EvalAgent + RefineAgent
+> Shows pass/fail status and refinements with re-evaluation.
+<p align="center">
+  <img src="./public/screenshots/eval.png" alt="Prompt Entry UI" width="700"/>
+</p>
+
+---
+
+## 📂 Project Structure
+clarifycoder-frontend/
+
+├─ app/ # Next.js app directory
+
+├─ components/ # UI components (Dropdown, Sidebar, CopyButton, etc.)
+
+├─ public/ # Static assets (icons, screenshots)
+
+├─ styles/ # Tailwind setup + global styles
+
+├─ package.json # Dependencies
+
+├─ tailwind.config.js # Tailwind config
+
+└─ tsconfig.json # TypeScript config
+
+
+---
+
+## ⚙️ Tech Stack
+
+- **Framework**: Next.js 14 + TypeScript
+- **Styling**: TailwindCSS, custom glassmorphism gradients
+- **Animations**: Framer Motion
+- **UI Components**: HeadlessUI, Lucide Icons
+- **State Management**: React Hooks
+- **API Integration**: Fetch to backend (`/run_prompt`)
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repo
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/hsb-amjad/clarifycoder-frontend.git
+cd clarifycoder-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+``` bash
+npm install -D tailwindcss@3 postcss autoprefixer
+```
+``` bash
+npx tailwindcss init -p
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Run Dev Server
+```bash
+npn run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Frontend runs at: http://localhost:3000
+- ⚠️ Note: Backend must also be running. See [clarifycoder-backend]().
 
-## Learn More
+## 🌐 Deployment
+This frontend is optimized for Vercel:
+1. Push repo to GitHub.
+2. Link with Vercel dashboard.
+3. Configure backend API endpoint in environment variables if needed.
+4. Deploy → live in seconds 🚀
 
-To learn more about Next.js, take a look at the following resources:
+## 👤 Author
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Haseeb Amjad** – Mechatronics Engineer | Machine Learning | AI + Robotics | MedTech  
+🌐 [Portfolio]([https://haseebamjad.dev](https://my-portfolio-sage-zeta-79.vercel.app))
+💼 [LinkedIn](www.linkedin.com/in/hsb-amjad)
