@@ -39,9 +39,9 @@ function PremiumDropdown({ value, onChange, options }: DropdownProps) {
   return (
     <Listbox value={value} onChange={onChange}>
       <div className="relative w-full">
-        <Listbox.Button className="relative w-full sm:min-w-[160px] cursor-pointer rounded-xl bg-gradient-to-r from-indigo-500/80 to-purple-500/80 px-4 py-3 text-left font-semibold text-white shadow-md focus:outline-none focus:ring-4 focus:ring-purple-300 transition flex justify-between items-center">
-          <span>{value}</span>
-          <ChevronDown className="h-5 w-5 opacity-80" />
+        <Listbox.Button className="relative w-full min-w-[140px] sm:min-w-[180px] cursor-pointer rounded-xl bg-gradient-to-r from-indigo-500/80 to-purple-500/80 px-4 py-3 text-center font-semibold text-white shadow-md focus:outline-none focus:ring-4 focus:ring-purple-300 transition flex justify-between items-center">
+          <span className="truncate">{value}</span>
+          <ChevronDown className="h-5 w-5 opacity-80 ml-2 shrink-0" />
         </Listbox.Button>
         <Transition
           as={Fragment}
@@ -204,8 +204,9 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-4 md:p-6 overflow-y-auto w-full
-                 md:justify-center">
+      <main className="flex-1 flex flex-col items-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 
+                 p-4 md:p-6 overflow-y-auto w-full
+                 md:justify-start mt-12 md:mt-20 lg:mt-28">
         {/* Top Bar (mobile only) */}
         <div className="md:hidden flex items-center justify-between w-full mb-4">
           <button onClick={() => setSidebarOpen(true)} className="text-white">
